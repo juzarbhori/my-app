@@ -4,28 +4,33 @@ import React from 'react';
 import CustomTable from '../common/CustomTable/CustomTable'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Icon from "@material-ui/core/Icon";
 
 class HomeScreen extends React.Component<any, {
-  name: string,
+  dateData: string,
+  billReference: string,
+  amount:number,
   dataTable:any
 }> {
   constructor(props: any) {
     super(props);
     this.state = {
-      name: '',
+      dateData: '',
+      billReference: '',
+      amount:0,
       dataTable: [] 
     }
   }
 
   handleSubmit = () =>{
-    const {name,dataTable} =this.state;
+    const {dateData,billReference,amount,dataTable} =this.state;
     let dataT = [...dataTable];
-    dataT.push({name:name});
+    dataT.push({dateData:dateData,billReference:billReference,amount:amount});
 
     this.setState({
       dataTable:dataT,
-      name:''
+      dateData:'',
+      billReference:'',
+      amount:0
     })
     
   }
@@ -39,27 +44,57 @@ class HomeScreen extends React.Component<any, {
   }
   handleInputChange = (event: any, key: any) => {
     const value: any = event.target.value;
-    this.setState({
-      name:value,
-    })
+    let setObj: any = {};
+    setObj[key] = value;
+    console.log(setObj)
+    this.setState(setObj)
   }
   renderForm = () => {
-    const {name} = this.state;
+    const {dateData,billReference,amount } = this.state;
     return (
       <div >
 
         <TextField
-          value={name}
+          value={dateData}
           label=""
           type="text"
           margin="normal"
           variant="outlined"
+          placeholder="Enter date"
           fullWidth
-          className="custom-input disabled "
-          name="company_name"
-          data-id="company_name"
+          className="custom-input"
+          name="date"
           onChange={(event) =>
-            this.handleInputChange(event, "lastName")
+            this.handleInputChange(event, "dateData")
+        }
+        />
+        <TextField
+          value={billReference}
+          label=""
+          type="text"
+          margin="normal"
+          variant="outlined"
+          placeholder="Enter Bill refence"
+          fullWidth
+          className="custom-input  "
+          name="bill_reference"
+          data-id="bill_reference"
+          onChange={(event) =>
+            this.handleInputChange(event, "billReference")
+        }
+        />
+        <TextField
+          value={amount}
+          label=""
+          type="number"
+          margin="normal"
+          variant="outlined"
+          placeholder="Enter Amount"
+          fullWidth
+          className="custom-input  "
+          name="amount"
+          onChange={(event) =>
+            this.handleInputChange(event, "amount")
         }
         />
         <Button className="custom-primary-button" onClick={() => this.handleSubmit()}>Proceed</Button>
@@ -70,12 +105,14 @@ class HomeScreen extends React.Component<any, {
 
   render() {
     const COL_REFER = [
-      { title: "Name", field: "name" },
+      { title: "Date", field: "dateData" },
+      { title: "Bill reference", field: "billReference" },
+      { title: "Amount", field: "amount" },
     ];
     let dataDump = this.state.dataTable;
     // const dataDump  = [{ name:"Juzar" },{ name:"BHORI" }];
 
-    console.log(dataDump)
+    // console.log(dataDump)
 
     return (
 <>
